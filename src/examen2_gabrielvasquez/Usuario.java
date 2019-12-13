@@ -1,27 +1,38 @@
 package examen2_gabrielvasquez;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Serializable {
     
     private String nombre;
     private int edad;
     private String correo;
     private String user;
     private String password;
-    private ArrayList<Canal> canales;
+    private Canal canal;
+    private ArrayList<Canal> canales = new ArrayList();
     private Playlist favoritos;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, int edad, String correo, String user, String password, ArrayList<Canal> canales, Playlist favoritos) {
+    public Usuario(String nombre, int edad, String correo, String user, String password, Canal canal) {
         this.nombre = nombre;
         this.edad = edad;
         this.correo = correo;
         this.user = user;
         this.password = password;
-        this.canales = canales;
+        this.canal = canal;
+    }
+
+    public Usuario(String nombre, int edad, String correo, String user, String password, Canal canal, Playlist favoritos) {
+        this.nombre = nombre;
+        this.edad = edad;
+        this.correo = correo;
+        this.user = user;
+        this.password = password;
+        this.canal = canal;
         this.favoritos = favoritos;
     }
 

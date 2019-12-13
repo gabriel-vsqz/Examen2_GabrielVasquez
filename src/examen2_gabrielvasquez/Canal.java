@@ -1,17 +1,23 @@
 package examen2_gabrielvasquez;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Canal {
+public class Canal implements Serializable {
     
     private int suscriptores;
     private String nombre;
     private String categoria;
     private int videos;
     private int likes;
-    private ArrayList<Video> propios;
+    private ArrayList<Video> propios = new ArrayList();
 
     public Canal() {
+    }
+
+    public Canal(String nombre, String categoria) {
+        this.nombre = nombre;
+        this.categoria = categoria;
     }
 
     public Canal(int suscriptores, String nombre, String categoria, int videos, int likes, ArrayList<Video> propios) {
