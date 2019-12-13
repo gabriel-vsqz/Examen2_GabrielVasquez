@@ -76,6 +76,14 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
+    public Canal getCanal() {
+        return canal;
+    }
+
+    public void setCanal(Canal canal) {
+        this.canal = canal;
+    }
+
     public ArrayList<Canal> getCanales() {
         return canales;
     }
@@ -94,7 +102,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return nombre + "{Usuario: " + user + " - Canal: " + canal;
     }
     
 }

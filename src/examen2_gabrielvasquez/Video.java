@@ -72,7 +72,7 @@ public class Video implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " - " + rept;
+        return nombre;
     }
     
     
