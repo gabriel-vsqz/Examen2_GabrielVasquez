@@ -124,6 +124,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         txtA = new javax.swing.JTextArea();
         jd_Reproducir = new javax.swing.JDialog();
+        PopUp = new javax.swing.JPopupMenu();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         login_user = new javax.swing.JTextField();
@@ -896,18 +897,18 @@ public class Principal extends javax.swing.JFrame {
         String nc = registrar_canal.getText();
         String cc = registrar_categoria.getText().toUpperCase();
         Canal ch = new Canal(nc, cc);
-        
+
         AU.cargarArchivo();
-        
+
         boolean read = false;
         for (Usuario f : cargados) {
             if (f.getCanal().getNombre().equals(u)) {
                 read = true;
             }
         }
-        
+
         if (n.equals("") || c.equals("") || u.equals("") || p.equals("") || nc.equals("") || cc.equals("") || read == false) {
-            
+
         } else {
             Usuario nuevo = new Usuario(n, e, c, u, p, ch);
 
@@ -917,7 +918,6 @@ public class Principal extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");
         }
-
 
         registrar_nombre.setText("");
         registrar_edad.setValue(0);
@@ -1027,9 +1027,9 @@ public class Principal extends javax.swing.JFrame {
         AU.cargarArchivo();
         try {
             int pos = table_otherChannels.getSelectedRow();
-            
+
             String chan = table_otherChannels.getValueAt(pos, 0).toString();
-            
+
             boolean marcela = false;
             for (Usuario t : AU.getUsuarios()) {
                 if (t.getCanal().getNombre().equals(chan)) {
@@ -1037,29 +1037,52 @@ public class Principal extends javax.swing.JFrame {
                     marcela = true;
                 }
             }
-            
+
             if (marcela == true) {
                 actual.getCanales().add(boneless.getCanal());
+                AU.escribirArchivo();
+
                 DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
                 DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-                
+
                 boolean distress = true;
-                
+
                 for (Canal k : actual.getCanales()) {
-                    for (int i = 0; i < raiz.getChildCount(); i++) {
-                        if (k.getCategoria().equals(raiz.getChildAt(i))) {
-                            distress = false;
-                            este = i;
+                    if (raiz.getChildCount() > 0) {
+                        for (int i = 0; i < raiz.getChildCount(); i++) {
+                            if (k.getCategoria().equals(raiz.getChildAt(i))) {
+                                distress = false;
+                                este = i;
+                                break;
+                            }
                         }
-                    }
-                    if (distress == false) {
-                        channel = new DefaultMutableTreeNode(k);
+                        if (distress == false) {
+                            channel = new DefaultMutableTreeNode(k);
+                            category = new DefaultMutableTreeNode(raiz.getChildAt(este));
+                            if (k.getPropios().size() > 0) {
+                                for (Video v : k.getPropios()) {
+                                    video = new DefaultMutableTreeNode(v);
+                                    channel.add(video);
+                                }
+                            }
+                            category.add(channel);
+                            raiz.add(category);
+                        }
+                    } else {
                         category = new DefaultMutableTreeNode(k.getCategoria());
-                        
+                        channel = new DefaultMutableTreeNode(k);
+                        if (k.getPropios().size() > 0) {
+                            for (Video v : k.getPropios()) {
+                                video = new DefaultMutableTreeNode(v);
+                                channel.add(video);
+                            }
+                        }
+                        category.add(channel);
+                        raiz.add(category);
                     }
                 }
+                modelo.reload();
             }
-        
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un canal para poder suscribirse");
         }
@@ -1096,6 +1119,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu PopUp;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
@@ -1181,5 +1205,6 @@ public class Principal extends javax.swing.JFrame {
     int este;
     DefaultMutableTreeNode category;
     DefaultMutableTreeNode channel;
+    DefaultMutableTreeNode video;
 
 }
