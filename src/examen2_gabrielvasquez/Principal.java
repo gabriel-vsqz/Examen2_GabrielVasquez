@@ -3,23 +3,55 @@ package examen2_gabrielvasquez;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
         setLocationRelativeTo(null);
-        
-//        nsong_subs.setEnabled(false);
-//        jb_addSub.setEnabled(false);
 
         AU.cargarArchivo();
+
+        DefaultTableModel model = (DefaultTableModel) table_otherChannels.getModel();
+
         cargados = AU.getUsuarios();
+
         for (Usuario t : cargados) {
             txtA.append(t.toString() + "\n");
+
+            Object[] row = {t.getCanal().getNombre(), t.getCanal().getCategoria(), t.getCanal().getSuscriptores()};
+            model.addRow(row);
         }
+
+        table_otherChannels.setModel(model);
     }
-    
+
+    public void cleanTable() {
+        table_nss.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Subtítulos"
+                }
+        ) {
+            Class[] types = new Class[]{
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[]{
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -47,19 +79,19 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        tree = new javax.swing.JTree();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jt1 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jt2 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jt3 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jb_salir = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_mysongs = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
@@ -80,9 +112,18 @@ public class Principal extends javax.swing.JFrame {
         table_nss = new javax.swing.JTable();
         jb_createVideo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        table_otherChannels = new javax.swing.JTable();
+        jb_subscribe = new javax.swing.JButton();
         jd_vistaUsuarios = new javax.swing.JDialog();
         jScrollPane5 = new javax.swing.JScrollPane();
         txtA = new javax.swing.JTextArea();
+        jd_Reproducir = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         login_user = new javax.swing.JTextField();
@@ -222,28 +263,28 @@ public class Principal extends javax.swing.JFrame {
         jLabel13.setText("Suscripciones");
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorías");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane1.setViewportView(tree);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jt1.setEditable(false);
+        jt1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        jt1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel14.setText("Suscriptores");
 
-        jTextField2.setEditable(false);
-        jTextField2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jt2.setEditable(false);
+        jt2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        jt2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel16.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jLabel16.setText("Likes");
 
-        jTextField3.setEditable(false);
-        jTextField3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jt3.setEditable(false);
+        jt3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        jt3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -252,30 +293,30 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jt1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField2))))
+                            .addComponent(jt3)
+                            .addComponent(jt2))))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jt1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jt3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -286,8 +327,13 @@ public class Principal extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jButton1.setText("Actualizar");
 
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jButton3.setText("Salir");
+        jb_salir.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        jb_salir.setText("Salir");
+        jb_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_salirMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,7 +349,7 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(146, 146, 146)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -327,13 +373,13 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Perfil", jPanel1);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_mysongs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -356,11 +402,11 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        table_mysongs.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(table_mysongs);
+        if (table_mysongs.getColumnModel().getColumnCount() > 0) {
+            table_mysongs.getColumnModel().getColumn(0).setResizable(false);
+            table_mysongs.getColumnModel().getColumn(1).setResizable(false);
         }
 
         jLabel17.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
@@ -439,7 +485,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jLabel18)
                                 .addGap(13, 13, 13)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Mis Videos", jPanel2);
@@ -546,25 +592,141 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jb_addSub))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jb_createVideo)
                 .addGap(22, 22, 22))
         );
 
         jTabbedPane1.addTab("Nuevo Video", jPanel3);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Duracion", "Creador"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane7.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jButton5.setText("Reproducir");
+
+        jButton6.setText("Reproducir Playlist");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 886, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(268, 268, 268)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Favoritos", jPanel5);
+
+        table_otherChannels.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Canal", "Categoría", "Suscriptores"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_otherChannels.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(table_otherChannels);
+        if (table_otherChannels.getColumnModel().getColumnCount() > 0) {
+            table_otherChannels.getColumnModel().getColumn(0).setResizable(false);
+            table_otherChannels.getColumnModel().getColumn(1).setResizable(false);
+            table_otherChannels.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jb_subscribe.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        jb_subscribe.setText("Suscribirse");
+        jb_subscribe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_subscribeMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(390, Short.MAX_VALUE)
+                .addComponent(jb_subscribe)
+                .addGap(385, 385, 385))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jb_subscribe)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Otros Canales", jPanel6);
 
         javax.swing.GroupLayout jd_VULayout = new javax.swing.GroupLayout(jd_VU.getContentPane());
         jd_VU.getContentPane().setLayout(jd_VULayout);
@@ -583,7 +745,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -607,6 +769,17 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jd_ReproducirLayout = new javax.swing.GroupLayout(jd_Reproducir.getContentPane());
+        jd_Reproducir.getContentPane().setLayout(jd_ReproducirLayout);
+        jd_ReproducirLayout.setHorizontalGroup(
+            jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jd_ReproducirLayout.setVerticalGroup(
+            jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -721,17 +894,39 @@ public class Principal extends javax.swing.JFrame {
         String u = registrar_usuario.getText();
         String p = registrar_contra.getText();
         String nc = registrar_canal.getText();
-        String cc = registrar_canal.getText().toUpperCase();
+        String cc = registrar_categoria.getText().toUpperCase();
         Canal ch = new Canal(nc, cc);
-
-        Usuario nuevo = new Usuario(n, e, c, u, p, ch);
-
-        AU.cargarArchivo();
-        AU.setUsuario(nuevo);
-        AU.escribirArchivo();
-
-        JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");
         
+        AU.cargarArchivo();
+        
+        boolean read = false;
+        for (Usuario f : cargados) {
+            if (f.getCanal().getNombre().equals(u)) {
+                read = true;
+            }
+        }
+        
+        if (n.equals("") || c.equals("") || u.equals("") || p.equals("") || nc.equals("") || cc.equals("") || read == false) {
+            
+        } else {
+            Usuario nuevo = new Usuario(n, e, c, u, p, ch);
+
+            //AU.cargarArchivo();
+            AU.setUsuario(nuevo);
+            AU.escribirArchivo();
+
+            JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");
+        }
+
+
+        registrar_nombre.setText("");
+        registrar_edad.setValue(0);
+        registrar_correo.setText("");
+        registrar_usuario.setText("");
+        registrar_contra.setText("");
+        registrar_canal.setText("");
+        registrar_categoria.setText("");
+
         jd_RegistrarUser.setVisible(false);
     }//GEN-LAST:event_jb_registrarMouseClicked
 
@@ -757,17 +952,21 @@ public class Principal extends javax.swing.JFrame {
             login_user.setText("");
             login_password.setText("");
 
+            jt1.setText(actual.getUser());
+            jt2.setText(Integer.toString(actual.getCanal().getSuscriptores()));
+            jt3.setText(Integer.toString(actual.getCanal().getLikes()));
+
             jd_VU.setModal(true);
             jd_VU.pack();
             jd_VU.setLocationRelativeTo(this);
             jd_VU.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Usuario no registrado");
-            
+
             login_user.setText("");
             login_password.setText("");
         }
-        
+
     }//GEN-LAST:event_jb_loginMouseClicked
 
     private void jb_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_registerMouseClicked
@@ -780,15 +979,15 @@ public class Principal extends javax.swing.JFrame {
     private void jb_addSubMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_addSubMouseClicked
         DefaultTableModel model = (DefaultTableModel) table_nss.getModel();
         duration = (int) nsong_tiempo.getValue();
-        
-        if (duration/10 > model.getRowCount()) {
+
+        if (duration / 10 > model.getRowCount()) {
             Object[] v = {nsong_subs.getText()};
             model.addRow(v);
             table_nss.setModel(model);
         } else {
             JOptionPane.showMessageDialog(this, "La duración de este video no permite más comentarios");
         }
-        
+
         nsong_subs.setText("");
     }//GEN-LAST:event_jb_addSubMouseClicked
 
@@ -802,17 +1001,74 @@ public class Principal extends javax.swing.JFrame {
     private void jb_createVideoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_createVideoMouseClicked
         String n = nsong_name.getText();
         int d = (int) nsong_tiempo.getValue();
-        
-        Video v = new Video(n,d,0,0);
-        
+
+        Video v = new Video(n, d, 0, 0);
+
         actual.getCanal().getPropios().add(v);
-        
+
         int place = actual.getCanal().getPropios().indexOf(v);
-        
+
+        DefaultTableModel modelo = (DefaultTableModel) table_nss.getModel();
         for (int i = 0; i < table_nss.getRowCount(); i++) {
-            
+            actual.getCanal().getPropios().get(place).getComments().add((String) modelo.getValueAt(i, 0));
         }
+
+        DefaultTableModel model = (DefaultTableModel) table_mysongs.getModel();
+        Object[] o = {n, d};
+        model.addRow(o);
+        table_mysongs.setModel(model);
+
+        nsong_name.setText("");
+        nsong_tiempo.setValue(0);
+        cleanTable();
     }//GEN-LAST:event_jb_createVideoMouseClicked
+
+    private void jb_subscribeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_subscribeMouseClicked
+        AU.cargarArchivo();
+        try {
+            int pos = table_otherChannels.getSelectedRow();
+            
+            String chan = table_otherChannels.getValueAt(pos, 0).toString();
+            
+            boolean marcela = false;
+            for (Usuario t : AU.getUsuarios()) {
+                if (t.getCanal().getNombre().equals(chan)) {
+                    boneless = t;
+                    marcela = true;
+                }
+            }
+            
+            if (marcela == true) {
+                actual.getCanales().add(boneless.getCanal());
+                DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                
+                boolean distress = true;
+                
+                for (Canal k : actual.getCanales()) {
+                    for (int i = 0; i < raiz.getChildCount(); i++) {
+                        if (k.getCategoria().equals(raiz.getChildAt(i))) {
+                            distress = false;
+                            este = i;
+                        }
+                    }
+                    if (distress == false) {
+                        channel = new DefaultMutableTreeNode(k);
+                        category = new DefaultMutableTreeNode(k.getCategoria());
+                        
+                    }
+                }
+            }
+        
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un canal para poder suscribirse");
+        }
+
+    }//GEN-LAST:event_jb_subscribeMouseClicked
+
+    private void jb_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_salirMouseClicked
+        jd_VU.dispose();
+    }//GEN-LAST:event_jb_salirMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -842,7 +1098,8 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -870,29 +1127,34 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTree jTree1;
     private javax.swing.JButton jb_addSub;
     private javax.swing.JButton jb_createVideo;
     private javax.swing.JButton jb_login;
     private javax.swing.JButton jb_register;
     private javax.swing.JButton jb_registrar;
+    private javax.swing.JButton jb_salir;
+    private javax.swing.JButton jb_subscribe;
     private javax.swing.JButton jb_verUsers;
     private javax.swing.JDialog jd_RegistrarUser;
+    private javax.swing.JDialog jd_Reproducir;
     private javax.swing.JDialog jd_VU;
     private javax.swing.JDialog jd_vistaUsuarios;
+    private javax.swing.JTextField jt1;
+    private javax.swing.JTextField jt2;
+    private javax.swing.JTextField jt3;
     private javax.swing.JPasswordField login_password;
     private javax.swing.JTextField login_user;
     private javax.swing.JTextField nsong_name;
@@ -905,13 +1167,19 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner registrar_edad;
     private javax.swing.JTextField registrar_nombre;
     private javax.swing.JTextField registrar_usuario;
+    private javax.swing.JTable table_mysongs;
     private javax.swing.JTable table_nss;
+    private javax.swing.JTable table_otherChannels;
+    private javax.swing.JTree tree;
     private javax.swing.JTextArea txtA;
     // End of variables declaration//GEN-END:variables
     adminUsuarios AU = new adminUsuarios("./Usuarios");
     ArrayList<Usuario> cargados = new ArrayList();
     int duration;
     Usuario actual;
-    Video este;
-    
+    Usuario boneless;
+    int este;
+    DefaultMutableTreeNode category;
+    DefaultMutableTreeNode channel;
+
 }

@@ -100,9 +100,14 @@ public class Usuario implements Serializable {
         this.favoritos = favoritos;
     }
 
+//    @Override
+//    public String toString() {
+//        return nombre + "{Usuario: " + user + " - Canal: " + canal;
+//    }
+
     @Override
     public String toString() {
-        return nombre + "{Usuario: " + user + " - Canal: " + canal;
+        return "Usuario{" + "nombre=" + nombre + ", edad=" + edad + ", correo=" + correo + ", user=" + user + ", password=" + password + ", canal=" + canal + ", canales=" + canales + ", favoritos=" + favoritos + '}';
     }
     
 }
