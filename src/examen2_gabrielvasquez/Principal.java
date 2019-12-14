@@ -15,17 +15,22 @@ public class Principal extends javax.swing.JFrame {
         AU.cargarArchivo();
 
         DefaultTableModel model = (DefaultTableModel) table_otherChannels.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) table_mysongs.getModel();
 
-        cargados = AU.getUsuarios();
-
-        for (Usuario t : cargados) {
+        for (Usuario t : AU.getUsuarios()) {
             txtA.append(t.toString() + "\n");
 
             Object[] row = {t.getCanal().getNombre(), t.getCanal().getCategoria(), t.getCanal().getSuscriptores()};
             model.addRow(row);
+
+            for (Video j : t.getCanal().getPropios()) {
+                Object[] r = {j.getNombre(), j.getRept(), j.getLikes(), j.getDislikes()};
+                modelo.addRow(r);
+            }
         }
 
         table_otherChannels.setModel(model);
+        table_mysongs.setModel(modelo);
     }
 
     public void cleanTable() {
@@ -87,19 +92,10 @@ public class Principal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jt3 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jb_salir = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_mysongs = new javax.swing.JTable();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -124,7 +120,15 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         txtA = new javax.swing.JTextArea();
         jd_Reproducir = new javax.swing.JDialog();
+        rep_name = new javax.swing.JLabel();
+        bar = new javax.swing.JProgressBar();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        area = new javax.swing.JTextArea();
+        rep_dur = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         PopUp = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         login_user = new javax.swing.JTextField();
@@ -265,6 +269,11 @@ public class Principal extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorías");
         tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        tree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                treeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tree);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
@@ -325,9 +334,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Mi Canal");
 
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jButton1.setText("Actualizar");
-
         jb_salir.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jb_salir.setText("Salir");
         jb_salir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -348,10 +354,8 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(150, 150, 150)
+                        .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -371,9 +375,7 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(59, 59, 59)
                         .addComponent(jb_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -385,14 +387,14 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Duración"
+                "Nombre", "Duración", "Likes", "Dislikes"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -408,85 +410,25 @@ public class Principal extends javax.swing.JFrame {
         if (table_mysongs.getColumnModel().getColumnCount() > 0) {
             table_mysongs.getColumnModel().getColumn(0).setResizable(false);
             table_mysongs.getColumnModel().getColumn(1).setResizable(false);
+            table_mysongs.getColumnModel().getColumn(2).setResizable(false);
+            table_mysongs.getColumnModel().getColumn(3).setResizable(false);
         }
-
-        jLabel17.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Likes");
-
-        jLabel18.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Dislikes");
-
-        jTextField4.setEditable(false);
-        jTextField4.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-
-        jTextField5.setEditable(false);
-        jTextField5.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-
-        jLabel19.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setText("Comentarios");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
-
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        jButton2.setText("Ver");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(210, 210, 210))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(54, 54, 54)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(80, 80, 80))
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addGap(13, 13, 13)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Mis Videos", jPanel2);
@@ -772,16 +714,71 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        rep_name.setFont(new java.awt.Font("Dialog", 1, 40)); // NOI18N
+        rep_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rep_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        area.setColumns(20);
+        area.setRows(5);
+        jScrollPane8.setViewportView(area);
+
+        rep_dur.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        rep_dur.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rep_dur.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jButton1.setText("Reproducir");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jd_ReproducirLayout = new javax.swing.GroupLayout(jd_Reproducir.getContentPane());
         jd_Reproducir.getContentPane().setLayout(jd_ReproducirLayout);
         jd_ReproducirLayout.setHorizontalGroup(
             jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jd_ReproducirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rep_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rep_dur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_ReproducirLayout.createSequentialGroup()
+                        .addGap(0, 34, Short.MAX_VALUE)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))
+                    .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(jd_ReproducirLayout.createSequentialGroup()
+                .addGap(209, 209, 209)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_ReproducirLayout.setVerticalGroup(
             jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(jd_ReproducirLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(rep_name, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rep_dur, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(14, 14, 14)
+                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
+
+        jMenuItem1.setText("Reproducir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        PopUp.add(jMenuItem1);
+
+        jMenuItem2.setText("Agegar a Favoritos");
+        PopUp.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -898,8 +895,7 @@ public class Principal extends javax.swing.JFrame {
         String cc = registrar_categoria.getText().toUpperCase();
         Canal ch = new Canal(nc, cc);
 
-        AU.cargarArchivo();
-
+        //AU.cargarArchivo();
         boolean read = false;
         for (Usuario f : cargados) {
             if (f.getCanal().getNombre().equals(u)) {
@@ -907,12 +903,11 @@ public class Principal extends javax.swing.JFrame {
             }
         }
 
-        if (n.equals("") || c.equals("") || u.equals("") || p.equals("") || nc.equals("") || cc.equals("") || read == false) {
+        if (n.equals("") || c.equals("") || u.equals("") || p.equals("") || nc.equals("") || cc.equals("") || read == true) {
 
         } else {
             Usuario nuevo = new Usuario(n, e, c, u, p, ch);
 
-            //AU.cargarArchivo();
             AU.setUsuario(nuevo);
             AU.escribirArchivo();
 
@@ -966,6 +961,8 @@ public class Principal extends javax.swing.JFrame {
             login_user.setText("");
             login_password.setText("");
         }
+        
+        Tree();
 
     }//GEN-LAST:event_jb_loginMouseClicked
 
@@ -1018,13 +1015,15 @@ public class Principal extends javax.swing.JFrame {
         model.addRow(o);
         table_mysongs.setModel(model);
 
+        AU.escribirArchivo();
+
         nsong_name.setText("");
         nsong_tiempo.setValue(0);
         cleanTable();
     }//GEN-LAST:event_jb_createVideoMouseClicked
 
     private void jb_subscribeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_subscribeMouseClicked
-        AU.cargarArchivo();
+        //AU.cargarArchivo();
         try {
             int pos = table_otherChannels.getSelectedRow();
 
@@ -1038,60 +1037,119 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
 
-            if (marcela == true) {
+            if (marcela) {
                 actual.getCanales().add(boneless.getCanal());
+                Tree();
                 AU.escribirArchivo();
-
-                DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
-                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-
-                boolean distress = true;
-
-                for (Canal k : actual.getCanales()) {
-                    if (raiz.getChildCount() > 0) {
-                        for (int i = 0; i < raiz.getChildCount(); i++) {
-                            if (k.getCategoria().equals(raiz.getChildAt(i))) {
-                                distress = false;
-                                este = i;
-                                break;
-                            }
-                        }
-                        if (distress == false) {
-                            channel = new DefaultMutableTreeNode(k);
-                            category = new DefaultMutableTreeNode(raiz.getChildAt(este));
-                            if (k.getPropios().size() > 0) {
-                                for (Video v : k.getPropios()) {
-                                    video = new DefaultMutableTreeNode(v);
-                                    channel.add(video);
-                                }
-                            }
-                            category.add(channel);
-                            raiz.add(category);
-                        }
-                    } else {
-                        category = new DefaultMutableTreeNode(k.getCategoria());
-                        channel = new DefaultMutableTreeNode(k);
-                        if (k.getPropios().size() > 0) {
-                            for (Video v : k.getPropios()) {
-                                video = new DefaultMutableTreeNode(v);
-                                channel.add(video);
-                            }
-                        }
-                        category.add(channel);
-                        raiz.add(category);
-                    }
-                }
-                modelo.reload();
             }
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un canal para poder suscribirse");
         }
 
     }//GEN-LAST:event_jb_subscribeMouseClicked
 
+    public void Tree() {
+        try {
+        cleanTree();
+        DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        DefaultMutableTreeNode category = null;
+
+        for (Canal k : actual.getCanales()) {
+            if (raiz.getChildCount() == 0) {
+                category = new DefaultMutableTreeNode(k.getCategoria());
+                DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
+                if (k.getPropios().isEmpty()) {
+                } else {
+                    for (Video v : k.getPropios()) {
+                        DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
+                        channel.add(video);
+                    }
+                }
+                category.add(channel);
+                raiz.add(category);
+            } else {
+                boolean distress = true;
+                for (int i = 0; i < raiz.getChildCount(); i++) {
+                    if (k.getCategoria().equals(raiz.getChildAt(i))) {
+                        distress = false;
+                        este = i;
+                        break;
+                    }
+                }
+
+                if (distress) {
+                     category = new DefaultMutableTreeNode(k.getCategoria());
+                    DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
+                    if (k.getPropios().isEmpty()) {
+                    } else {
+                        for (Video v : k.getPropios()) {
+                            DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
+                            channel.add(video);
+                        }
+                    }
+                    category.add(channel);
+                    raiz.add(category);
+                } else {
+                    DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
+                     category = (DefaultMutableTreeNode) raiz.getChildAt(este);
+                    if (k.getPropios().isEmpty()) {
+                    } else {
+                        for (Video v : k.getPropios()) {
+                            DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
+                            channel.add(video);
+                        }
+                    }
+                    category.add(channel);
+                    raiz.add(category);
+                }
+
+            }
+        }
+        } catch (Exception e) {
+            
+        }
+    }
+
     private void jb_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_salirMouseClicked
+
         jd_VU.dispose();
     }//GEN-LAST:event_jb_salirMouseClicked
+
+    public void cleanTree() {
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorías");
+        tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+    }
+    
+    private void treeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_treeMouseClicked
+        if (evt.isMetaDown()) {
+            int row = tree.getClosestRowForLocation(evt.getX(), evt.getY());
+            tree.setSelectionRow(row);
+            Object v1 = tree.getSelectionPath().getLastPathComponent();
+            ns = (DefaultMutableTreeNode) v1;
+
+            if (ns.getUserObject() instanceof Video) {
+                vhs = (Video) ns.getUserObject();
+                PopUp.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_treeMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        rep_name.setText(vhs.getNombre());
+        rep_dur.setText(Integer.toString(vhs.getRept()));
+        
+        jd_Reproducir.setModal(true);
+        jd_Reproducir.pack();
+        jd_Reproducir.setLocationRelativeTo(this);
+        jd_Reproducir.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        hv = new Hilo_Video(bar, area, vhs);
+        hv.start();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     public static void main(String args[]) {
         try {
@@ -1120,8 +1178,9 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu PopUp;
+    private javax.swing.JTextArea area;
+    private javax.swing.JProgressBar bar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
@@ -1132,9 +1191,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -1146,6 +1202,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1154,16 +1212,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JButton jb_addSub;
     private javax.swing.JButton jb_createVideo;
     private javax.swing.JButton jb_login;
@@ -1191,20 +1246,24 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner registrar_edad;
     private javax.swing.JTextField registrar_nombre;
     private javax.swing.JTextField registrar_usuario;
+    private javax.swing.JLabel rep_dur;
+    private javax.swing.JLabel rep_name;
     private javax.swing.JTable table_mysongs;
     private javax.swing.JTable table_nss;
     private javax.swing.JTable table_otherChannels;
     private javax.swing.JTree tree;
     private javax.swing.JTextArea txtA;
     // End of variables declaration//GEN-END:variables
-    adminUsuarios AU = new adminUsuarios("./Usuarios");
+    adminUsuarios AU = new adminUsuarios("./Usuarios.gvs");
     ArrayList<Usuario> cargados = new ArrayList();
     int duration;
     Usuario actual;
     Usuario boneless;
     int este;
-    DefaultMutableTreeNode category;
-    DefaultMutableTreeNode channel;
-    DefaultMutableTreeNode video;
-
+//    DefaultMutableTreeNode category;
+//    DefaultMutableTreeNode channel;
+//    DefaultMutableTreeNode video;
+    DefaultMutableTreeNode ns;
+    Video vhs;
+    Hilo_Video hv;
 }
