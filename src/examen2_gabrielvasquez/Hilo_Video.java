@@ -14,7 +14,7 @@ public class Hilo_Video extends Thread {
         this.bar = bar;
         this.AREA = AREA;
         this.video = video;
-        avanzar = true;
+        this.avanzar = true;
     }
 
     public JProgressBar getBar() {
@@ -55,9 +55,8 @@ public class Hilo_Video extends Thread {
             bar.setMaximum(video.getRept());
             if (bar.getValue() < bar.getMaximum()) {
                 if (bar.getValue() % 10 == 0 && bar.getValue() / 10 < video.getSubtitulos().size()) {
-                    int sub = bar.getValue() / 10;
-                    AREA.setText(video.getSubtitulos().get(sub));
-                    System.out.println(video.getSubtitulos().get(sub));
+                    int pos = bar.getValue() / 10;
+                    AREA.append(video.getSubtitulos().get(pos) + "\n");
                 }
                 bar.setValue(bar.getValue() + 1);
                 try {

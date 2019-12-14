@@ -79,7 +79,7 @@ public class Canal implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " - Suscriptores: " + suscriptores + "}";
+        return "{" + nombre + ",Suscriptores:" + suscriptores + "Videos:" + propios + "}";
     }
     
 }

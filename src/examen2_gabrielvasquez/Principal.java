@@ -15,7 +15,6 @@ public class Principal extends javax.swing.JFrame {
         AU.cargarArchivo();
 
         DefaultTableModel model = (DefaultTableModel) table_otherChannels.getModel();
-        DefaultTableModel modelo = (DefaultTableModel) table_mysongs.getModel();
 
         for (Usuario t : AU.getUsuarios()) {
             txtA.append(t.toString() + "\n");
@@ -23,14 +22,11 @@ public class Principal extends javax.swing.JFrame {
             Object[] row = {t.getCanal().getNombre(), t.getCanal().getCategoria(), t.getCanal().getSuscriptores()};
             model.addRow(row);
 
-            for (Video j : t.getCanal().getPropios()) {
-                Object[] r = {j.getNombre(), j.getRept(), j.getLikes(), j.getDislikes()};
-                modelo.addRow(r);
-            }
         }
 
         table_otherChannels.setModel(model);
-        table_mysongs.setModel(modelo);
+        Tree();
+        
     }
 
     public void cleanTable() {
@@ -109,7 +105,7 @@ public class Principal extends javax.swing.JFrame {
         jb_createVideo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablefave = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
@@ -125,7 +121,6 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         area = new javax.swing.JTextArea();
         rep_dur = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         PopUp = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -542,7 +537,7 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Nuevo Video", jPanel3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablefave.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -565,12 +560,12 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane7.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        tablefave.getTableHeader().setReorderingAllowed(false);
+        jScrollPane7.setViewportView(tablefave);
+        if (tablefave.getColumnModel().getColumnCount() > 0) {
+            tablefave.getColumnModel().getColumn(0).setResizable(false);
+            tablefave.getColumnModel().getColumn(1).setResizable(false);
+            tablefave.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jButton5.setText("Reproducir");
@@ -654,19 +649,19 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane6)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(390, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(380, 380, 380)
                 .addComponent(jb_subscribe)
-                .addGap(385, 385, 385))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addComponent(jb_subscribe)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane1.addTab("Otros Canales", jPanel6);
@@ -718,6 +713,7 @@ public class Principal extends javax.swing.JFrame {
         rep_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rep_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        area.setEditable(false);
         area.setColumns(20);
         area.setRows(5);
         jScrollPane8.setViewportView(area);
@@ -725,13 +721,6 @@ public class Principal extends javax.swing.JFrame {
         rep_dur.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         rep_dur.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rep_dur.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jButton1.setText("Reproducir");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jd_ReproducirLayout = new javax.swing.GroupLayout(jd_Reproducir.getContentPane());
         jd_Reproducir.getContentPane().setLayout(jd_ReproducirLayout);
@@ -748,23 +737,17 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(24, 24, 24))
                     .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jd_ReproducirLayout.createSequentialGroup()
-                .addGap(209, 209, 209)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_ReproducirLayout.setVerticalGroup(
             jd_ReproducirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_ReproducirLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(38, 38, 38)
                 .addComponent(rep_name, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rep_dur, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(14, 14, 14)
+                .addGap(30, 30, 30)
                 .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(36, 36, 36)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -778,6 +761,11 @@ public class Principal extends javax.swing.JFrame {
         PopUp.add(jMenuItem1);
 
         jMenuItem2.setText("Agegar a Favoritos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         PopUp.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -961,9 +949,13 @@ public class Principal extends javax.swing.JFrame {
             login_user.setText("");
             login_password.setText("");
         }
-        
-        Tree();
 
+        DefaultTableModel modelo = (DefaultTableModel) table_mysongs.getModel();
+        for (Video j : actual.getCanal().getPropios()) {
+            Object[] r = {j.getNombre(), j.getRept(), j.getLikes(), j.getDislikes()};
+            modelo.addRow(r);
+        }
+        table_mysongs.setModel(modelo);
     }//GEN-LAST:event_jb_loginMouseClicked
 
     private void jb_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_registerMouseClicked
@@ -1042,7 +1034,6 @@ public class Principal extends javax.swing.JFrame {
                 Tree();
                 AU.escribirArchivo();
             }
-            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un canal para poder suscribirse");
         }
@@ -1051,36 +1042,14 @@ public class Principal extends javax.swing.JFrame {
 
     public void Tree() {
         try {
-        cleanTree();
-        DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
-        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-        DefaultMutableTreeNode category = null;
+            cleanTree();
+            DefaultTreeModel modelo = (DefaultTreeModel) tree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode category = null;
 
-        for (Canal k : actual.getCanales()) {
-            if (raiz.getChildCount() == 0) {
-                category = new DefaultMutableTreeNode(k.getCategoria());
-                DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
-                if (k.getPropios().isEmpty()) {
-                } else {
-                    for (Video v : k.getPropios()) {
-                        DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
-                        channel.add(video);
-                    }
-                }
-                category.add(channel);
-                raiz.add(category);
-            } else {
-                boolean distress = true;
-                for (int i = 0; i < raiz.getChildCount(); i++) {
-                    if (k.getCategoria().equals(raiz.getChildAt(i))) {
-                        distress = false;
-                        este = i;
-                        break;
-                    }
-                }
-
-                if (distress) {
-                     category = new DefaultMutableTreeNode(k.getCategoria());
+            for (Canal k : actual.getCanales()) {
+                if (raiz.getChildCount() == 0) {
+                    category = new DefaultMutableTreeNode(k.getCategoria());
                     DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
                     if (k.getPropios().isEmpty()) {
                     } else {
@@ -1092,23 +1061,46 @@ public class Principal extends javax.swing.JFrame {
                     category.add(channel);
                     raiz.add(category);
                 } else {
-                    DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
-                     category = (DefaultMutableTreeNode) raiz.getChildAt(este);
-                    if (k.getPropios().isEmpty()) {
-                    } else {
-                        for (Video v : k.getPropios()) {
-                            DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
-                            channel.add(video);
+                    boolean distress = true;
+                    int este = 0;
+                    for (int i = 0; i < raiz.getChildCount(); i++) {
+                        if (k.getCategoria().equals(raiz.getChildAt(i))) {
+                            distress = false;
+                            este = i;
+                            break;
                         }
                     }
-                    category.add(channel);
-                    raiz.add(category);
-                }
 
+                    if (distress) {
+                        category = new DefaultMutableTreeNode(k.getCategoria());
+                        DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
+                        if (k.getPropios().isEmpty()) {
+                        } else {
+                            for (Video v : k.getPropios()) {
+                                DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
+                                channel.add(video);
+                            }
+                        }
+                        category.add(channel);
+                        raiz.add(category);
+                    } else {
+                        DefaultMutableTreeNode channel = new DefaultMutableTreeNode(k);
+                        category = (DefaultMutableTreeNode) raiz.getChildAt(este);
+                        if (k.getPropios().isEmpty()) {
+                        } else {
+                            for (Video v : k.getPropios()) {
+                                DefaultMutableTreeNode video = new DefaultMutableTreeNode(v);
+                                channel.add(video);
+                            }
+                        }
+                        category.add(channel);
+                        raiz.add(category);
+                    }
+
+                }
             }
-        }
         } catch (Exception e) {
-            
+
         }
     }
 
@@ -1121,7 +1113,7 @@ public class Principal extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorías");
         tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
     }
-    
+
     private void treeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_treeMouseClicked
         if (evt.isMetaDown()) {
             int row = tree.getClosestRowForLocation(evt.getX(), evt.getY());
@@ -1137,19 +1129,24 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_treeMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        rep_name.setText(vhs.getNombre());
-        rep_dur.setText(Integer.toString(vhs.getRept()));
-        
+        try {
+            rep_name.setText(vhs.getNombre());
+            rep_dur.setText(Integer.toString(vhs.getRept()));
+            hv = new Hilo_Video(bar, area, vhs);
+            hv.start();
+        } catch (Exception e) {
+
+        }
+
         jd_Reproducir.setModal(true);
         jd_Reproducir.pack();
         jd_Reproducir.setLocationRelativeTo(this);
         jd_Reproducir.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        hv = new Hilo_Video(bar, area, vhs);
-        hv.start();
-    }//GEN-LAST:event_jButton1MouseClicked
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -1180,7 +1177,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu PopUp;
     private javax.swing.JTextArea area;
     private javax.swing.JProgressBar bar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
@@ -1218,7 +1214,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jb_addSub;
     private javax.swing.JButton jb_createVideo;
     private javax.swing.JButton jb_login;
@@ -1251,6 +1246,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable table_mysongs;
     private javax.swing.JTable table_nss;
     private javax.swing.JTable table_otherChannels;
+    private javax.swing.JTable tablefave;
     private javax.swing.JTree tree;
     private javax.swing.JTextArea txtA;
     // End of variables declaration//GEN-END:variables
@@ -1259,7 +1255,7 @@ public class Principal extends javax.swing.JFrame {
     int duration;
     Usuario actual;
     Usuario boneless;
-    int este;
+//    int este;
 //    DefaultMutableTreeNode category;
 //    DefaultMutableTreeNode channel;
 //    DefaultMutableTreeNode video;
